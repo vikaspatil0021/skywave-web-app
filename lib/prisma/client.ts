@@ -6,19 +6,20 @@ declare global {
 }
 
 
-const prisma = global.prisma || new PrismaClient().$extends({
-    query: {
-        $allModels: {
-            async create({ args, query }: any) {
-                args = {
-                    ...args.data,
-                    id: nanoid(15)
+const prisma = global.prisma || new PrismaClient()
+    .$extends({
+        query: {
+            $allModels: {
+                async create({ args, query }: any) {
+                    args.data = {
+                        ...args.data,
+                        id: nanoid(15)
+                    }
+                    return query(args);
                 }
-                return query(args);
             }
         }
-    }
-}) as PrismaClient
+    }) as PrismaClient
 
 if (process.env.NODE_ENV === "development") global.prisma = prisma;
 
