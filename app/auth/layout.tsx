@@ -4,8 +4,6 @@ import { getServerSession } from "next-auth"
 
 import BuiltByMe from "@/components/ui/common/builtByMe";
 
-// export const runtime = 'edge';
-
 export const metadata: Metadata = {
     title: "Auth | Skywave.in",
 }
