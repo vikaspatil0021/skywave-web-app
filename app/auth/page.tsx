@@ -45,7 +45,7 @@ export default function Auth() {
                                 <Skeleton className="h-10 w-full bg-zinc-500" />
                             </> :
                             <>
-                                <Button variant="secondary" size='lg' loading={githubBtnLoading} className="gap-1" onClick={() => {
+                                <Button variant="default" size='lg' loading={githubBtnLoading} className="gap-1" onClick={() => {
                                     signIn('github');
                                     setGithubBtnLoading(true);
                                 }}>
