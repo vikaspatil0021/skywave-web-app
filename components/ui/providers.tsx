@@ -11,8 +11,10 @@ export default function NextProviders({
     return (
         <>
             <ThemeProvider
+                attribute="class"
                 defaultTheme="system"
                 enableSystem
+                disableTransitionOnChange
             >
                 <SessionProvider>
                     {children}
