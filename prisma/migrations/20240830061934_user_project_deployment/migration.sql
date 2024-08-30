@@ -10,6 +10,9 @@ CREATE TABLE "User" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "picture" TEXT NOT NULL,
+    "git_user_id" TEXT NOT NULL,
+    "git_username" TEXT NOT NULL,
+    "repos_url" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
