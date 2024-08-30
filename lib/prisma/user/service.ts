@@ -1,8 +1,6 @@
 import prisma from "../client";
 
-let count = 0;
 export const getUserByEmail = async (email: string) => {
-    console.log(++count)
     return await prisma?.user.findUnique({
         where: {
             email

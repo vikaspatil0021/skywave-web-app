@@ -3,7 +3,7 @@ import { Button } from "../button";
 
 export default function BuiltByMe() {
     return (
-        <div className="text-sm">
+        <div className="text-sm  opacity-80">
             Built by
             <Button variant='link' className="px-1">
                 <Link target="_blank" href='https://github.com/vikaspatil0021'>
