@@ -10,11 +10,14 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
+    DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { signOut, useSession } from "next-auth/react"
 import { Skeleton } from "../skeleton";
 import { Button } from "../button";
+import { ExitIcon, HomeIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 
 export default function UserNav() {
     const session = useSession();
@@ -32,22 +35,39 @@ export default function UserNav() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>
-                <DropdownMenuLabel className="font-normal md:hiden cursor-default">
+                <DropdownMenuLabel className="font-normal cursor-default">
                     <div className="flex flex-col space-y-1">
                         <p className="text-sm font-medium leading-none">{session?.data?.user?.name}</p>
                         <p className="text-xs leading-none text-muted-foreground truncate" title={session?.data?.user?.email as string}>{session?.data?.user?.email as string}</p>
                     </div>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator className="mdhidden" />
-                <DropdownMenuGroup>
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
-                    <DropdownMenuItem>New Team</DropdownMenuItem>
-                </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem
-                    onClick={() => signOut()}>Log out</DropdownMenuItem>
+                <DropdownMenuGroup className="text-muted-foreground">
+                    <Link href='/dashboard'>
+                        <DropdownMenuItem>
+                            Dashboard
+                        </DropdownMenuItem>
+                    </Link>
+
+                    <DropdownMenuItem>
+                        Settings
+                    </DropdownMenuItem>
+
+                    <DropdownMenuSeparator />
+                    <Link href='/home'>
+                        <DropdownMenuItem>
+                            Home Page
+                            <DropdownMenuShortcut>
+                                <HomeIcon />
+                            </DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                    </Link>
+                    <DropdownMenuItem onClick={() => signOut()}>
+                        Log out
+                        <DropdownMenuShortcut><ExitIcon /></DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
+
             </DropdownMenuContent>
         </DropdownMenu>
     )

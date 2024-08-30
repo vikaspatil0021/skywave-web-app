@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Skeleton } from "../skeleton";
-import { signOut } from "next-auth/react";
+
 import UserNav from "./user-nav";
 import ModeToggle from "../modeToggle";
+import { Skeleton } from "../skeleton";
 
 export default function Header() {
     return (
