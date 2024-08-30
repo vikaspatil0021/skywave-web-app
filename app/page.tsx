@@ -1,16 +1,11 @@
-'use client'
+import { authOptions } from "@/lib/auth/options";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-import { trpc } from "@/server/trpcClient";
+export default async function Home() {
+   const session = await getServerSession(authOptions);
 
-import { signOut } from "next-auth/react";
+   if (!session) redirect('/auth');
 
-export default function Home() {
-  const { data, status } = trpc.hello.useQuery()
-  return (
-    <>
-      <button onClick={() => signOut()}>
-        logout
-      </button>
-    </>
-  );
+   return redirect('/dashboard')
 }
