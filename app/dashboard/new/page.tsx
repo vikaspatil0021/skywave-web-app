@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { GitHubLogoIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 
 
@@ -26,11 +26,14 @@ export default function Page() {
                     <div className=" inline-flex items-center gap-2 rounded-md">
                         <GitHubLogoIcon />
                         <span>
-                            {user ? user?.git_username : <Skeleton className="h-5 w-28 bg-zinc-600"/>}
+                            {user ? user?.git_username : <Skeleton className="h-5 w-28 bg-zinc-600" />}
                         </span>
                     </div>
 
-                    <Input type="text" placeholder="Search..." className="bg-[#111] text-xs text-white/80" />
+                    <div className="relative flex items-center">
+                        <MagnifyingGlassIcon className="absolute left-2" />
+                        <Input type="text" placeholder="Search..." className="bg-[#111] text-xs text-white/80 ps-7" />
+                    </div>
 
                     <div className="border border-white/20 text-xs bg-[#111] rounded-md">
                         <div className="flex justify-between items-center py-3 px-3 border-b border-white/20">
