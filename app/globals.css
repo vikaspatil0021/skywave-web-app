@@ -65,5 +65,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    display: flex;
+    flex-direction: column;
+  }
+  html,
+  body {
+    height: 100%;
   }
 }

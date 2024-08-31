@@ -16,7 +16,9 @@ export default async function RootLayout({
 
     return (
         <>
-            {children}
+            <div className="w-full flex flex-1 justify-center py-10 px-3 md:px-0">
+                {children}
+            </div>
         </>
     )
 }

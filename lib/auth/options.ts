@@ -30,6 +30,7 @@ export const authOptions: NextAuthOptions = {
             return {
                 ...token,
                 id: existingUser.id,
+                git_username: existingUser?.git_username
             }
         },
         async signIn({ account, user, profile }: { account: Account | null, user: User | AdapterUser, profile?: P | undefined }) {
@@ -48,8 +49,9 @@ export const authOptions: NextAuthOptions = {
             return true
         },
         async session({ session, token }) {
-            const user = session?.user as { id: String }
+            const user = session?.user as { id: string, git_username: string }
             user.id = token?.id as string
+            user.git_username = token?.git_username as string
             return session
         }
     }
