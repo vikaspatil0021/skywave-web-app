@@ -1,6 +1,7 @@
 'use client'
 
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -8,11 +9,41 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { GitHubLogoIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
+import { trpc } from "@/server/trpcClient";
+import { useDebounce } from "@/lib/use_debounce";
+import { calculate_time_since } from "@/lib/calculate_time_since";
+import { LoadingIcon } from "@/components/icons/icons";
+import { toast } from "@/components/ui/use-toast";
 
+type Repo = {
+    id: string,
+    name: string,
+    updated_at: string,
+    visibility: string,
+    git_url: string,
+    clone_url: string
+}
 
 export default function Page() {
     const session = useSession();
     const user = session?.data?.user as { git_username: string }
+
+    const [inputVal, setInputVal] = useState<string>('');
+
+    const debouncedValue = useDebounce(inputVal)
+
+    const { data, isFetching, isError, error } = trpc?.github?.get_repos?.useQuery({ query: debouncedValue }, { refetchOnWindowFocus: false })
+
+    useEffect(() => {
+
+        if (isError) {
+            toast({
+                variant: "destructive",
+                title: error?.message as string,
+            });
+        }
+    }, [isError])
+
     return (
         <>
             <div className=" flex-1 w-full max-w-lg min-w-fit mb-5">
@@ -22,7 +53,7 @@ export default function Page() {
                 <p className="text-muted-foreground mt-2 mb-5">
                     Import an existing Git Repository.
                 </p>
-                <div className="flex flex-col w-full gap-3 p-4 md:p-6 bg-[#333] text-sm text-white/90 rounded-md border border-white/10">
+                <div className="flex flex-col w-full h-[380px] md:h-[395px] gap-3 p-4 md:p-6 bg-[#333] text-sm text-white/90 rounded-md border border-white/10">
                     <div className=" inline-flex items-center gap-2 rounded-md">
                         <GitHubLogoIcon />
                         <span>
@@ -32,67 +63,42 @@ export default function Page() {
 
                     <div className="relative flex items-center">
                         <MagnifyingGlassIcon className="absolute left-2" />
-                        <Input type="text" placeholder="Search..." className="bg-[#111] text-xs text-white/80 ps-7" />
+                        <Input type="text" placeholder="Search repo..." className="bg-[#111] text-xs text-white/80 ps-7"
+                            onChange={(e) => setInputVal(e?.target?.value as string)} />
                     </div>
 
-                    <div className="border border-white/20 text-xs bg-[#111] rounded-md">
-                        <div className="flex justify-between items-center py-3 px-3 border-b border-white/20">
-                            <div className="flex gap-2">
-                                <GitHubLogoIcon />
 
-                                Skywave
-                            </div>
-                            <Button variant='default' size='sm' className="h-7">
-                                Deploy
-                            </Button>
-                        </div>
+                    <div className={`flex-1 ${isFetching || isError || data.length === 0 ? "flex justify-center items-center" : ''} border border-white/20 text-xs bg-[#111] rounded-md relative`}>
 
-                        <div className="flex justify-between items-center py-3 px-3 border-b border-white/20">
-                            <div className="flex gap-2">
-                                <GitHubLogoIcon />
+                        {isError && <span>Something went wrong</span>}
+                        {!isError && isFetching && <LoadingIcon />}
+                        {!isError && !isFetching && data.length === 0 && <span>No Results Found</span>}
 
-                                Framesync
-                            </div>
-                            <Button variant='default' size='sm' className="h-7">
-                                Deploy
-                            </Button>
-                        </div>
+                        {!isError && !isFetching &&
+                            data.map((repo: Repo, index: number) => {
+                                return (
+                                    <>
+                                        <div className={`flex justify-between items-center py-3 px-3 ${index !== 4 ? "border-b border-white/20" : ''}`}>
+                                            <div className="flex gap-2">
+                                                <GitHubLogoIcon />
 
-                        <div className="flex justify-between items-center py-3 px-3 border-b border-white/20">
-                            <div className="flex gap-2">
-                                <GitHubLogoIcon />
+                                                <span>{repo?.name}</span>
+                                                <span className="text-zinc-400">{calculate_time_since(repo?.updated_at)}</span>
+                                            </div>
+                                            <Button variant='default' size='sm' className="h-7">
+                                                Deploy
+                                            </Button>
+                                        </div>
 
-                                Framesync
-                            </div>
-                            <Button variant='default' size='sm' className="h-7">
-                                Deploy
-                            </Button>
-                        </div>
-                        <div className="flex justify-between items-center py-3 px-3 border-b border-white/20">
-                            <div className="flex gap-2">
-                                <GitHubLogoIcon />
+                                    </>
+                                )
+                            })
 
-                                meme-frontend
-                            </div>
-                            <Button variant='default' size='sm' className="h-7">
-                                Deploy
-                            </Button>
-                        </div>
-
-                        <div className="flex justify-between items-center py-3 px-3 border-white/20">
-                            <div className="flex gap-2">
-                                <GitHubLogoIcon />
-
-                                meme-backend
-                            </div>
-                            <Button variant='default' size='sm' className="h-7">
-                                Deploy
-                            </Button>
-                        </div>
+                        }
                     </div>
                 </div>
 
-            </div>
+            </div >
         </>
     );
 }
