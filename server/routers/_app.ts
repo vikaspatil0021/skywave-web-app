@@ -1,14 +1,9 @@
-import { z } from "zod";
-import { publicProcedure, router } from "./../trpc";
+import { router } from "./../trpc";
+import { github_api_router } from "./github_api/_router";
 
 export const appRouter = router({
-    hello: publicProcedure
     
-        .query((opts) => {
-            return {
-                greeting: `hello bro`,
-            };
-        }),
+    github: github_api_router
 });
 
 
