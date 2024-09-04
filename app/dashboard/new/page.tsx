@@ -6,6 +6,17 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer";
+
 
 import { GitHubLogoIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
@@ -14,6 +25,7 @@ import { useDebounce } from "@/lib/use_debounce";
 import { calculate_time_since } from "@/lib/calculate_time_since";
 import { LoadingIcon } from "@/components/icons/icons";
 import { toast } from "@/components/ui/use-toast";
+import { NewProjectDeployDrawerDialog } from "@/components/ui/dialog-and-drawer/new-project-deploy";
 
 type Repo = {
     id: string,
@@ -78,17 +90,18 @@ export default function Page() {
                             data.map((repo: Repo, index: number) => {
                                 return (
                                     <>
-                                        <div className={`flex justify-between items-center py-3 px-3 ${index !== 4 ? "border-b border-white/20" : ''}`}>
+                                        <div key={'repo' + index} className={`flex justify-between items-center py-3 px-3 ${index !== 4 ? "border-b border-white/20" : ''}`}>
                                             <div className="flex gap-2">
                                                 <GitHubLogoIcon />
 
                                                 <span>{repo?.name}</span>
                                                 <span className="text-zinc-400">{calculate_time_since(repo?.updated_at)}</span>
                                             </div>
-                                            <Button variant='default' size='sm' className="h-7">
-                                                Deploy
-                                            </Button>
-                                        </div>
+                                            <NewProjectDeployDrawerDialog
+                                                repo={repo}
+                                                git_username={user?.git_username} />
+
+                                        </div >
 
                                     </>
                                 )
