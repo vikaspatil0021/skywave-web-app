@@ -39,7 +39,7 @@ model User {
 
 model Project {
   id         String       @id @default("")
-  name       String
+  name       String       @unique
   domain     String
   repo_url   String
   created_at DateTime     @default(now())

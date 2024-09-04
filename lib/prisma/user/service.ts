@@ -8,7 +8,7 @@ export const getUserByEmail = async (email: string) => {
     });
 }
 
-type createInputData = {
+type createUserInputData = {
     name: string,
     email: string,
     picture: string,
@@ -17,7 +17,7 @@ type createInputData = {
     repos_url: string,
 }
 
-export const createUser = async (data: createInputData) => {
+export const createUser = async (data: createUserInputData) => {
     return await prisma?.user.create({
         data
     });

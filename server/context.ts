@@ -5,7 +5,8 @@ import { Session, getServerSession } from "next-auth";
 interface S extends Session {
    user: {
       name: string,
-      git_username: string
+      git_username: string,
+      id: string
    }
 }
 

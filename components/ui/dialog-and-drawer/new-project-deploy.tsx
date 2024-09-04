@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { cn } from "@/lib/utils"
+import { isValidString } from "@/lib/utils"
 import useMediaQuery from "@/lib/use_media_query"
 import { Button } from "@/components/ui/button"
 import {
@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "../label"
 import { GitHubLogoIcon } from "@radix-ui/react-icons"
 import { Switch } from "../switch"
+import { trpc } from "@/server/trpcClient"
 
 type NewProjectDeployDrawerDialogProps = {
     repo: {
@@ -86,6 +87,16 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
     const [build_command_disabled, set_build_command_disabled] = useState<boolean>(true);
     const [output_directory_disabled, set_output_directory] = useState<boolean>(true);
 
+    const [project_name, set_project_name] = useState<string>(repo?.name || '');
+
+    const create_project_mutation = trpc?.project?.create_project?.useMutation();
+
+    const create_project_handler = (e: any) => {
+        e.preventDefault();
+        console.log(project_name)
+        create_project_mutation.mutate({ project_name, repo_url: repo?.clone_url })
+    }
+
     return (
         <>
             <div className='flex justify-between items-center py-3 px-3 border border-white/20 text-xs bg-[#111] rounded-md'>
@@ -97,24 +108,24 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
             <form className="grid items-start gap-4">
                 <div className="grid gap-1">
                     <Label htmlFor="project_name" className="text-xs text-white/50">Project Name</Label>
-                    <Input type="text" id="project_name" defaultValue={repo?.name} className="bg-[#111] " />
+                    <Input type="text" id="project_name" className="bg-[#111]" value={project_name} onChange={(e: any) => set_project_name(e.target?.value)} />
                 </div>
                 <div className="grid gap-1">
                     <Label htmlFor="build_command" className="text-xs text-white/50">Build Command</Label>
                     <div className="flex items-center gap-2">
-                        <Input id="build_command" defaultValue="npm run build" className="bg-[#111]" disabled={build_command_disabled} />
+                        <Input id="build_command" placeholder="npm run build" className="bg-[#111]" disabled={build_command_disabled} />
                         <Switch id="build_command_override" title="Override" checked={!build_command_disabled} onCheckedChange={(val: boolean) => set_build_command_disabled(!val)} />
                     </div>
                 </div>
                 <div className="grid gap-1">
                     <Label htmlFor="output_directory" className="text-xs text-white/50">Output Directory</Label>
                     <div className="flex items-center gap-2">
-                        <Input id="output_directory" defaultValue="build" className="bg-[#111]" disabled={output_directory_disabled} />
+                        <Input id="output_directory" placeholder="build" className="bg-[#111]" disabled={output_directory_disabled} />
                         <Switch id="output_directory_override" title="Override" checked={!output_directory_disabled} onCheckedChange={(val: boolean) => set_output_directory(!val)} />
                     </div>
                 </div>
 
-                <Button variant='default'>deploy</Button>
+                <Button variant='default' onClick={create_project_handler}>deploy</Button>
             </form>
         </>
     )
