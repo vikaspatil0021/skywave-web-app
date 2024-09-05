@@ -10,6 +10,7 @@
     "db-gen": "npx prisma generate"
   },
   "dependencies": {
+    "@aws-sdk/client-sqs": "^3.637.0",
     "@prisma/client": "^5.19.0",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.1",

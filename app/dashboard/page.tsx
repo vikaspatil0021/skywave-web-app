@@ -5,7 +5,7 @@ export default function page() {
     return (
         <>
             <div>
-                <Link href='/dashboard/new'>
+                <Link href='/new'>
                     <Button variant='default'>
                         New Project
                     </Button>

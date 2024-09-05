@@ -1,8 +1,12 @@
+import { customAlphabet } from "nanoid";
+
 import { TRPCError } from "@trpc/server";
 
-import { createProject, getProjectByName } from "@/lib/prisma/project/service";
-import { nanoid } from "nanoid";
 import { createDeployment } from "@/lib/prisma/deployment/service";
+import { createProject, getProjectByName } from "@/lib/prisma/project/service";
+
+import { sqsClient, sqs_send_message_command } from "@/lib/aws/aws_client";
+
 
 type create_project_handler_params = {
     user_id: string,
@@ -11,7 +15,7 @@ type create_project_handler_params = {
 }
 
 export default async function create_project_handler({ user_id, project_name, repo_url }: create_project_handler_params) {
-
+    const custom_nano_id = customAlphabet("0123456789_abcdefghijklmnopqrstuvwxyz-", 15)
     try {
         const existing_project = await getProjectByName(project_name);
 
@@ -23,7 +27,7 @@ export default async function create_project_handler({ user_id, project_name, re
             name: project_name,
             repo_url,
             user_id,
-            domain: `${project_name}-${nanoid(11)}`
+            domain: project_name
         })
 
         const deployment = await createDeployment({
@@ -32,7 +36,9 @@ export default async function create_project_handler({ user_id, project_name, re
             source: "Git",
             status: "Queued"
         })
-        
+
+        await sqsClient.send(sqs_send_message_command({ deployment_id: deployment?.id, domain: project?.domain, repo_url: project?.repo_url }))
+
         return {
             project,
             deployment

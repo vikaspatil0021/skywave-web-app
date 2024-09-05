@@ -1,8 +1,13 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
-import { isValidString } from "@/lib/utils"
+import { isValid_ProjectName } from "@/lib/utils"
 import useMediaQuery from "@/lib/use_media_query"
-import { Button } from "@/components/ui/button"
+
+import { trpc } from "@/server/trpcClient"
+
+import { toast } from "../use-toast"
+
 import {
     Dialog,
     DialogContent,
@@ -19,11 +24,14 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
-import { Input } from "@/components/ui/input"
 import { Label } from "../label"
-import { GitHubLogoIcon } from "@radix-ui/react-icons"
 import { Switch } from "../switch"
-import { trpc } from "@/server/trpcClient"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
+import { GitHubLogoIcon } from "@radix-ui/react-icons"
+
+
 
 type NewProjectDeployDrawerDialogProps = {
     repo: {
@@ -84,6 +92,8 @@ export function NewProjectDeployDrawerDialog({ repo, git_username }: NewProjectD
 }
 
 function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) {
+    const router = useRouter();
+
     const [build_command_disabled, set_build_command_disabled] = useState<boolean>(true);
     const [output_directory_disabled, set_output_directory] = useState<boolean>(true);
 
@@ -91,9 +101,30 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
 
     const create_project_mutation = trpc?.project?.create_project?.useMutation();
 
+    const { error: cp_error, isSuccess: cp_isSuccess, isPending: cp_isPending } = create_project_mutation;
+
+    useEffect(() => {
+
+        if (cp_error) {
+            toast({
+                title: cp_error?.message,
+                variant: "destructive"
+            })
+        }
+
+        if (cp_isSuccess) {
+            router.push(`/dashboard/${project_name}`)
+        }
+    }, [cp_error, cp_isSuccess])
+
     const create_project_handler = (e: any) => {
         e.preventDefault();
-        console.log(project_name)
+
+        if (!isValid_ProjectName(project_name)) {
+            toast({ variant: "destructive", title: "Project names can be up to 100 characters long and must be lowercase. They can include letters, digits, and the following characters: '_', '-'" })
+            return;
+        }
+
         create_project_mutation.mutate({ project_name, repo_url: repo?.clone_url })
     }
 
@@ -107,7 +138,9 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
             </div >
             <form className="grid items-start gap-4">
                 <div className="grid gap-1">
-                    <Label htmlFor="project_name" className="text-xs text-white/50">Project Name</Label>
+                    <Label htmlFor="project_name" className="text-xs font-medium text-white/50 tracking-wide">
+                        Project Name <span className="text-white/60">( 'a-z', '0-9', '-', '_' only)</span>
+                    </Label>
                     <Input type="text" id="project_name" className="bg-[#111]" value={project_name} onChange={(e: any) => set_project_name(e.target?.value)} />
                 </div>
                 <div className="grid gap-1">
@@ -125,7 +158,7 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
                     </div>
                 </div>
 
-                <Button variant='default' onClick={create_project_handler}>deploy</Button>
+                <Button variant='default' onClick={create_project_handler} loading={cp_isPending}>deploy</Button>
             </form>
         </>
     )

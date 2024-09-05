@@ -6,6 +6,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 
-export function isValidString(str: string) {
+export function isValid_ProjectName(str: string) {
   return /^[a-z0-9_-]+$/.test(str);
 }
