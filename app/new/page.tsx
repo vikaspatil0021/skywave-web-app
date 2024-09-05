@@ -44,6 +44,7 @@ export default function Page() {
                 title: error?.message as string,
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isError])
 
     return (

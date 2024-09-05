@@ -115,6 +115,8 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
         if (cp_isSuccess) {
             router.push(`/dashboard/${project_name}`)
         }
+        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cp_error, cp_isSuccess])
 
     const create_project_handler = (e: any) => {
@@ -139,7 +141,7 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
             <form className="grid items-start gap-4">
                 <div className="grid gap-1">
                     <Label htmlFor="project_name" className="text-xs font-medium text-white/50 tracking-wide">
-                        Project Name <span className="text-white/60">( 'a-z', '0-9', '-', '_' only)</span>
+                        Project Name <span className="text-white/60">{"( 'a-z', '0-9', '-', '_' only)"}</span>
                     </Label>
                     <Input type="text" id="project_name" className="bg-[#111]" value={project_name} onChange={(e: any) => set_project_name(e.target?.value)} />
                 </div>
