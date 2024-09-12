@@ -66,6 +66,7 @@ export default function Page() {
                     <div className="relative flex items-center">
                         <MagnifyingGlassIcon className="absolute left-2" />
                         <Input type="text" placeholder="Search repo..." className="bg-[#111] text-xs text-white/80 ps-7"
+                            value={inputVal}
                             onChange={(e) => setInputVal(e?.target?.value as string)} />
                     </div>
 

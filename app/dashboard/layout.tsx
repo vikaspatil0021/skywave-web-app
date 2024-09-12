@@ -16,7 +16,9 @@ export default async function RootLayout({
 
     return (
         <>
-            {children}
+            <div className="relative overflow-hidden w-full flex-1 flex flex-col items-center p-3 pt-6">
+                {children}
+            </div>
         </>
     )
 }
