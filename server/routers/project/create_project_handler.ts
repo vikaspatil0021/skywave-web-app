@@ -15,7 +15,7 @@ type create_project_handler_params = {
 }
 
 export default async function create_project_handler({ user_id, project_name, repo_url }: create_project_handler_params) {
-    const custom_nano_id = customAlphabet("0123456789_abcdefghijklmnopqrstuvwxyz-", 15)
+
     try {
         const existing_project = await getProjectByName(project_name);
 
