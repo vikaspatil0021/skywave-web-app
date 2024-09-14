@@ -1,17 +1,39 @@
 'use client'
 
 import Link from "next/link";
+import { useEffect } from "react";
 
-import { Button } from "@/components/ui/button";
+import { trpc } from "@/server/trpcClient";
 
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
-const data = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 0, 8, 6, 5, 3, 22,
-]
+import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
+
+import DeploymentContainer from "@/components/ui/containers/deployment_containers";
+
+
+
 
 export default function Page({ params }: { params: { project_slug: string } }) {
+
+    const get_project_query = trpc?.project?.get_project?.useQuery({ project_name: params?.project_slug }, { refetchOnWindowFocus: false })
+    
+    const { data: project_data, isFetching, isError, error } = get_project_query;
+
+    useEffect(() => {
+
+        if (isError) {
+            toast({
+                variant: "destructive",
+                title: error?.message as string,
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isError])
+
     return (
         <>
             <ScrollArea className="relative h-full w-full" >
@@ -22,40 +44,29 @@ export default function Page({ params }: { params: { project_slug: string } }) {
                             {params?.project_slug}
                         </div>
                         <div className="flex gap-2">
-                            <Link href='/new'>
-                                <Button variant='outline' size="sm" className="flex gap-1">
-                                    <GitHubLogoIcon />
-                                    Repo
-                                </Button>
-                            </Link>
-                            <Link href='/new'>
-                                <Button variant='default' size="sm">
-                                    Live
-                                </Button>
-                            </Link>
+                            {isFetching && <Skeleton className="h-8 w-32 bg-[#333]" />}
+                            {!isFetching && <>
+                                <Link target="_blank" href={project_data?.repo_url as string}>
+                                    <Button variant='outline' size="sm" className="flex gap-1">
+                                        <GitHubLogoIcon />
+                                        Repo
+                                    </Button>
+                                </Link>
+                                <Link target="_blank" href={`https://${project_data?.domain}.skywaveapp.work.gd`}>
+                                    <Button variant='default' size="sm">
+                                        Live
+                                    </Button>
+                                </Link>
+                            </>}
                         </div>
                     </div>
                     <div className="px-3 md:px-0 pb-5">
                         <div className="text-muted-foreground text-sm my-3">
                             Deployments
                         </div>
-                        <div className=" border border-white/20 text-xs bg-[#111] rounded-md relative">
-                            {
-                                data.map((repo: any, index: number) => {
-                                    return (
-                                        <>
-                                            <div key={'repo' + index} className={`flex justify-between items-center py-3 px-3 ${index !== (data?.length - 1) ? "border-b border-white/20" : ''}`}>
-                                                <div className="flex gap-2">
-                                                    <span>{params?.project_slug}</span>
-                                                </div>
-                                            </div >
-
-                                        </>
-                                    )
-                                })
-
-                            }
-                        </div>
+                        <DeploymentContainer
+                            get_project_query={get_project_query}
+                        />
                     </div>
                 </div>
             </ScrollArea>
