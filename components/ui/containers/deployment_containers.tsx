@@ -38,15 +38,15 @@ export default function DeploymentContainer({ get_project_query }: Deployment_co
                 {!isError && !isFetching && project_data && project_data?.Deployment.map((deployment: Deployment, index: number) => {
                     return (
                         <>
-                            <div key={'deployment' + index} className={`grid sm:grid-cols-3 py-3 px-3 gap-1 sm:gap-0 ${index !== (project_data?.Deployment.length - 1) ? "border-b border-white/10" : ''}`}>
-                                <Link href={`${pathname}/${deployment?.id}`} className="hover:underline">
+                            <div key={'deployment' + index} className={`grid grid-cols-2 sm:grid-cols-3 py-3 px-3 gap-2 sm:gap-0 ${index !== (project_data?.Deployment.length - 1) ? "border-b border-white/10" : ''}`}>
+                                <Link href={`${pathname}/${deployment?.id}`} className="hover:underline col-span-2 sm:col-span-1">
                                     {deployment?.id}
                                 </Link>
-                                <div className="text-xs text-muted-foreground grid grid-cols-2 sm:flex sm:flex-col gap-3 sm:gap-1">
+                                <div className="text-xs text-muted-foreground grid gap-1">
                                     <div>{deployment?.status}</div>
                                     <div className="">{calculate_time_since(deployment?.created_at)} ago</div>
                                 </div>
-                                <Link target="_blank" href={deployment?.commit_url} className="group/commit text-xs text-muted-foreground grid grid-cols-2 sm:flex sm:flex-col gap-3 sm:gap-1">
+                                <Link target="_blank" href={deployment?.commit_url} className="group/commit text-xs text-muted-foreground grid gap-1">
 
                                     <div className="flex gap-1">
                                         <span>
