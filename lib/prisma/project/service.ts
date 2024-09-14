@@ -4,6 +4,9 @@ export const getProjectByName = async (name: string) => {
     return await prisma?.project.findUnique({
         where: {
             name
+        },
+        include: {
+            Deployment: true
         }
     });
 }

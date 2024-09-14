@@ -4,7 +4,10 @@ type CreateDeploymentInputData = {
     duration: number,
     project_id: string,
     source: "Git" | "Redeploy",
-    status: "Ready" | "Error" | "Queued" | "Building"
+    status: "Ready" | "Error" | "Queued" | "Building",
+    commit_url: string,
+    commit_message: string,
+    commit_sha: string
 }
 
 export const createDeployment = async (data: CreateDeploymentInputData) => {

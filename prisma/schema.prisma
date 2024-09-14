@@ -49,11 +49,14 @@ model Project {
 }
 
 model Deployment {
-  id         String       @id @default("")
-  duration   Int
-  project_id String
-  created_at DateTime     @default(now())
-  source     DeploySource
-  status     DeployStatus
-  project    Project      @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  id             String       @id @default("")
+  duration       Int
+  project_id     String
+  created_at     DateTime     @default(now())
+  source         DeploySource
+  status         DeployStatus
+  commit_url     String
+  commit_message String
+  commit_sha     String
+  project        Project      @relation(fields: [project_id], references: [id], onDelete: Cascade)
 }
