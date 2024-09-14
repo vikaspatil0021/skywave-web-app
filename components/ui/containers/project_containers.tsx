@@ -17,7 +17,12 @@ type Project = {
     domain: string,
     repo_url: string,
     created_at: string,
-    user_id: string
+    user_id: string,
+    Deployment: {
+        commit_message: string,
+        id: string,
+        created_at: string
+    }[]
 }
 
 export default function ProjectsContainer() {
@@ -63,12 +68,14 @@ export default function ProjectsContainer() {
                                                 <div className="text-sm hover:underline">{project?.name}</div>
                                             </Link>
 
-                                            <div className="flex gap-2 cursor-default">
-                                                <span className="text-xs text-muted-foreground truncate max-w-[180px]" title={'dashboard-project-container-ujhbjkkjnknnj'}>
-                                                    dashboard-project-container
-                                                </span>
+                                            <div className="flex items-center gap-2 cursor-default ">
+                                                <Link href={`/dashboard/${project?.name}/${project?.Deployment[0]?.id}`}>
+                                                    <div className="text-xs text-muted-foreground truncate max-w-[180px] hover:underline" title={project?.Deployment[0].commit_message}>
+                                                        {project?.Deployment[0].commit_message}
+                                                    </div>
+                                                </Link>
                                                 <span className="cursor-default text-muted-foreground text-xs">
-                                                    {calculate_time_since(project?.created_at)} ago
+                                                    {calculate_time_since(project?.Deployment[0].created_at)} ago
                                                 </span>
                                             </div>
                                         </div>

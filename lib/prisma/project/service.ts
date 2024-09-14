@@ -16,6 +16,14 @@ export const getProjectsByUserId = async (user_id: string) => {
         where: {
             user_id
         },
+        include: {
+            Deployment: {
+                take: 1,
+                orderBy: {
+                    created_at: 'desc'
+                }
+            }
+        },
         orderBy: {
             created_at: 'desc'
         }
