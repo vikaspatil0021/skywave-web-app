@@ -15,22 +15,24 @@ export default function Page() {
 
     return (
         <>
-            <ScrollArea className="relative h-full w-full max-w-2xl px-3" >
+            <ScrollArea className="relative h-full w-full px-3" >
+                <div className="w-full max-w-2xl mx-auto">
 
-                <div className="flex gap-2 items-center p-1 pt-6">
-                    <div className="relative flex-1 flex items-center">
-                        <MagnifyingGlassIcon className="absolute left-2" />
-                        <Input type="text" placeholder="Search project..." className="bg-[#111] text-xs text-white/80 ps-7"
-                            value={input_val}
-                            onChange={(e) => set_input_val(e?.target?.value as string)} />
+                    <div className="flex gap-2 items-center p-1 pt-6">
+                        <div className="relative flex-1 flex items-center">
+                            <MagnifyingGlassIcon className="absolute left-2" />
+                            <Input type="text" placeholder="Search project..." className="bg-[#111] text-xs text-white/80 ps-7"
+                                value={input_val}
+                                onChange={(e) => set_input_val(e?.target?.value as string)} />
+                        </div>
+                        <Link href='/new'>
+                            <Button variant='default' size="sm">
+                                New Project
+                            </Button>
+                        </Link>
                     </div>
-                    <Link href='/new'>
-                        <Button variant='default' size="sm">
-                            New Project
-                        </Button>
-                    </Link>
+                    <ProjectsContainer />
                 </div>
-                <ProjectsContainer />
             </ScrollArea>
         </>
     );
