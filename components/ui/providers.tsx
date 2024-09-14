@@ -12,7 +12,7 @@ export default function NextProviders({
         <>
             <ThemeProvider
                 attribute="class"
-                defaultTheme="system"
+                defaultTheme="dark"
                 enableSystem
                 disableTransitionOnChange
             >

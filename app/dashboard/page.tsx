@@ -15,9 +15,9 @@ export default function Page() {
 
     return (
         <>
-            <ScrollArea className="relative h-full w-full max-w-2xl" >
+            <ScrollArea className="relative h-full w-full max-w-2xl px-3" >
 
-                <div className="flex gap-2 items-center p-1">
+                <div className="flex gap-2 items-center p-1 pt-6">
                     <div className="relative flex-1 flex items-center">
                         <MagnifyingGlassIcon className="absolute left-2" />
                         <Input type="text" placeholder="Search project..." className="bg-[#111] text-xs text-white/80 ps-7"

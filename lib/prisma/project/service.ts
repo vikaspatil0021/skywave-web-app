@@ -8,6 +8,17 @@ export const getProjectByName = async (name: string) => {
     });
 }
 
+export const getProjectsByUserId = async (user_id: string) => {
+    return await prisma?.project.findMany({
+        where: {
+            user_id
+        },
+        orderBy: {
+            created_at: 'desc'
+        }
+    });
+}
+
 type CreateProjectInputData = {
     domain: string,
     name: string,
