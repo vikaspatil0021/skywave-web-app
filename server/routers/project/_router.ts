@@ -2,7 +2,7 @@ import { z } from "zod";
 import { router } from "@/server/trpc";
 
 import { authedProcedure } from "@/server/procedures/authedProcedure";
-import create_project_handler from "./create_project_handler";
+import create_project_handler from "./create_project.handler";
 import get_projects_handler from "./get_projects.handler";
 import get_project_handler from "./get_project.handler";
 

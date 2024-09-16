@@ -15,3 +15,15 @@ export const createDeployment = async (data: CreateDeploymentInputData) => {
         data
     });
 }
+
+
+export const getDeploymentById = async (id: string) => {
+    return await prisma?.deployment.findFirst({
+        where: {
+            id
+        },
+        include: {
+            project: true
+        }
+    });
+}
