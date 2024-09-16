@@ -6,7 +6,11 @@ export const getProjectByName = async (name: string) => {
             name
         },
         include: {
-            Deployment: true
+            Deployment: {
+                orderBy: {
+                    created_at: 'desc'
+                }
+            }
         }
     });
 }

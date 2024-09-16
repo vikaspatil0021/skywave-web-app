@@ -96,7 +96,7 @@ export default function Page({ params }: { params: { project_slug: string, deplo
                   </span>
                 </div>
                 <div className="max-w-full truncate group-hover/commit:underline" title={deployment_data?.commit_message}>
-                  {deployment_data?.commit_message}weghiuergierjgaegiud
+                  {deployment_data?.commit_message}
                 </div>
               </Link>
             </>
