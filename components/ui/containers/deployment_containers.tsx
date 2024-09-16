@@ -31,7 +31,7 @@ export default function DeploymentContainer({ get_project_query }: Deployment_co
 
     return (
         <>
-            <div className={`text-xs ${!isFetching && "bg-[#111] border border-white/10"} rounded-md relative`}>
+            <div className={`text-xs ${!isFetching && "bg-[#333] border border-white/10"} rounded-md relative`}>
                 {isError && <div className="text-center my-5 text-sm text-muted-foreground">Something went wrong</div>}
                 {!isError && isFetching && <div className="flex mt-10 justify-center"><LoadingIcon /></div>}
 

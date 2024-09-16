@@ -39,7 +39,7 @@ export default function Page({ params }: { params: { project_slug: string } }) {
             <ScrollArea className="relative h-full w-full" >
 
                 <div className="max-w-2xl w-full mx-auto">
-                    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between w-full py-5 md:py-7 px-3 md:px-0 border-b-2">
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between w-full py-5 md:h-[90px] px-3 md:p-0 border-b-2">
                         <div className="text-3xl font-bold">
                             {params?.project_slug}
                         </div>
