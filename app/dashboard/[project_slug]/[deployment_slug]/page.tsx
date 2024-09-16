@@ -38,14 +38,11 @@ export default function Page({ params }: { params: { project_slug: string, deplo
   return (
     <>
       <div className="max-w-2xl w-full mx-auto pb-3 flex-1 flex flex-col overflow-hidden">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between w-full pb-5 pt-2 md:p-0 md:min-h-[90px] px-3  border-b-2">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between w-full py-5 md:p-0 md:min-h-[90px] px-3  border-b-2">
           <div className="font-bold">
-            <Link href={`/dashboard/${project_slug}`} className="text-muted-foreground hover:underline">
+            <Link href={`/dashboard/${project_slug}`} className="text-muted-foreground hover:underline text-3xl">
               {project_slug}
             </Link>
-            <div>
-              {deployment_slug}
-            </div>
           </div>
           <div className="flex gap-2">
             {isFetching && <Skeleton className="h-8 w-32 bg-[#333]" />}
@@ -64,13 +61,17 @@ export default function Page({ params }: { params: { project_slug: string, deplo
             </>}
           </div>
         </div>
-        < div className='p-3 md:px-0 md:py-3 text-xs grid gap-3'>
-          <div className="grid gap-0.5">
+        <div className="pt-3 px-3 md:px-0">
+          {deployment_slug}
+        </div>
+        <div className='p-3 md:px-0 md:py-3 text-xs grid grid-cols-5 gap-3'>
+
+          <div className="grid gap-1.5 col-span-2">
             <span className="text-muted-foreground">
               Status
             </span>
-            <div className="flex gap-1">
-              {isFetching && <Skeleton className="h-4 w-32 bg-[#333]" />}
+            <div className="grid ">
+              {isFetching && <Skeleton className="h-8 w-24 bg-[#333]" />}
               {!isFetching &&
                 <>
                   <div>{deployment_data?.status}</div>
@@ -79,13 +80,13 @@ export default function Page({ params }: { params: { project_slug: string, deplo
               }
             </div>
           </div>
-          <div className="grid gap-0.5">
+          <div className="grid gap-1.5 col-span-3">
             <div className="text-muted-foreground">
               Source
             </div>
-            {isFetching && <Skeleton className="h-8 w-48 bg-[#333]" />}
+            {isFetching && <Skeleton className="h-8 w-40 bg-[#333]" />}
             {!isFetching && <>
-              <Link target="_blank" href={deployment_data?.commit_url as string} className="group/commit">
+              <Link target="_blank" href={deployment_data?.commit_url as string} className="group/commit grid">
                 <div className="flex gap-1">
                   <span>
                     {deployment_data?.source}

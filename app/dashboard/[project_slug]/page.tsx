@@ -20,7 +20,7 @@ import DeploymentContainer from "@/components/ui/containers/deployment_container
 export default function Page({ params }: { params: { project_slug: string } }) {
 
     const get_project_query = trpc?.project?.get_project?.useQuery({ project_name: params?.project_slug }, { refetchOnWindowFocus: false })
-    
+
     const { data: project_data, isFetching, isError, error } = get_project_query;
 
     useEffect(() => {
@@ -39,7 +39,7 @@ export default function Page({ params }: { params: { project_slug: string } }) {
             <ScrollArea className="relative h-full w-full" >
 
                 <div className="max-w-2xl w-full mx-auto">
-                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between w-full py-5 md:h-[90px] px-3 md:p-0 border-b-2">
+                    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between w-full py-5 md:h-[90px] px-3 md:p-0 border-b-2">
                         <div className="text-3xl font-bold">
                             {params?.project_slug}
                         </div>
