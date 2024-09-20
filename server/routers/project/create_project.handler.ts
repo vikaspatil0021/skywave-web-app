@@ -54,6 +54,6 @@ export default async function create_project_handler({ user_id, project_name, re
             deployment
         }
     } catch (error: any) {
-        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: error?.message as string })
+        throw new TRPCError({ code: error?.code, message: error?.message as string })
     }
 }
