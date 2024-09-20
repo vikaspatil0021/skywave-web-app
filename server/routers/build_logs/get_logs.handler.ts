@@ -11,6 +11,12 @@ type get_logs_handler_params = {
     deployment_id: string,
 }
 
+type Log = {
+    id: string,
+    created_at: string,
+    deployment_id: string,
+    log: string
+}
 export default async function get_logs_handler({ deployment_id }: get_logs_handler_params) {
 
     try {
@@ -25,7 +31,7 @@ export default async function get_logs_handler({ deployment_id }: get_logs_handl
             format: 'JSONEachRow'
         })
 
-        const logs = await result.json()
+        const logs = await result.json() as Log[]
         return logs;
 
     } catch (error: any) {

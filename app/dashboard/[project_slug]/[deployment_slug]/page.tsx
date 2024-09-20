@@ -15,8 +15,6 @@ import { calculate_time_since } from "@/lib/calculate_time_since";
 
 import BuildLogsContainer from "@/components/ui/containers/build_logs_container";
 
-
-
 export default function Page({ params }: { params: { project_slug: string, deployment_slug: string } }) {
   const { deployment_slug, project_slug } = params;
 
@@ -33,7 +31,6 @@ export default function Page({ params }: { params: { project_slug: string, deplo
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError])
-
 
   return (
     <>
@@ -75,7 +72,7 @@ export default function Page({ params }: { params: { project_slug: string, deplo
               {!isFetching &&
                 <>
                   <div>{deployment_data?.status}</div>
-                  <div className="">({calculate_time_since(deployment_data?.created_at as string)} ago)</div>
+                  <div className="">{calculate_time_since(deployment_data?.created_at as string)} ago</div>
                 </>
               }
             </div>
@@ -103,7 +100,9 @@ export default function Page({ params }: { params: { project_slug: string, deplo
             }
           </div>
         </div >
-        <BuildLogsContainer />
+        <BuildLogsContainer
+          deployment_id={deployment_slug}
+        />
       </div >
 
     </>
