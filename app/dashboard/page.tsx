@@ -11,7 +11,7 @@ import ProjectsContainer from "@/components/ui/containers/project_containers";
 
 
 export default function Page() {
-    const [input_val, set_input_val] = useState<string>();
+    const [search_input_val, set_input_val] = useState<string>('');
 
     return (
         <>
@@ -22,7 +22,7 @@ export default function Page() {
                         <div className="relative flex-1 flex items-center">
                             <MagnifyingGlassIcon className="absolute left-2" />
                             <Input type="text" placeholder="Search project..." className="bg-[#111] text-xs text-white/80 ps-7"
-                                value={input_val}
+                                value={search_input_val}
                                 onChange={(e) => set_input_val(e?.target?.value as string)} />
                         </div>
                         <Link href='/new'>
@@ -31,7 +31,9 @@ export default function Page() {
                             </Button>
                         </Link>
                     </div>
-                    <ProjectsContainer />
+                    <ProjectsContainer
+                        search_input_val={search_input_val}
+                    />
                 </div>
             </ScrollArea>
         </>

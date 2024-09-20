@@ -44,11 +44,9 @@ export default function BuildLogsContainer({ deployment_id }: { deployment_id: s
                     logs_data?.map((log_event: Log, index: number) => {
                         return (
                             <>
-                                <div key={'logs' + index} className={`text-xs grid grid-cols-6 gap-2 ${index === 0 ? 'mt-4' : ''}${index === logs_data?.length - 1 ? 'mb-4' : ''}`}>
-                                    <div className="col-span-1 text-center">
-                                        <span>
+                                <div key={'logs' + index} className={`text-xs grid grid-cols-6 gap-4 md:gap-2 ${index === 0 ? 'mt-4' : ''}${index === logs_data?.length - 1 ? 'mb-4' : ''}`}>
+                                    <div className="col-span-1 text-center min-w-[48px]">
                                             {formatTime(log_event?.created_at)}
-                                        </span>
                                     </div>
                                     <div className="col-span-5">
                                         {log_event?.log}
