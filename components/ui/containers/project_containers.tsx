@@ -58,9 +58,9 @@ export default function ProjectsContainer({ search_input_val }: { search_input_v
     return (
         <>
             <div className="grid md:grid-cols-2 gap-3 p-1 pb-4">
-                {isError && <div className="text-center mt-10 text-sm text-muted-foreground">Something went wrong</div>}
-                {!isError && isFetching && <div className="flex mt-10 justify-center"><LoadingIcon /></div>}
-                {!isError && !isFetching && projects?.length === 0 && <div className="text-center mt-10 text-sm text-muted-foreground">No Projects Found</div>}
+                {isError && <div className="text-center mt-10 text-sm text-muted-foreground md:col-span-2">Something went wrong</div>}
+                {!isError && isFetching && <div className="flex mt-10 justify-center md:col-span-2"><LoadingIcon /></div>}
+                {!isError && !isFetching && projects?.length === 0 && <div className="text-center mt-10 text-sm text-muted-foreground md:col-span-2">No Projects Found</div>}
 
                 {!isError && !isFetching && search_input_val === '' &&
                     projects?.map((project: Project, index: number) => {
