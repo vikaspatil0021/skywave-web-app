@@ -57,7 +57,7 @@ export default function ProjectsContainer({ search_input_val }: { search_input_v
 
     return (
         <>
-            <div className="grid gap-3 p-1 pb-4">
+            <div className="grid md:grid-cols-2 gap-3 p-1 pb-4">
                 {isError && <div className="text-center mt-10 text-sm text-muted-foreground">Something went wrong</div>}
                 {!isError && isFetching && <div className="flex mt-10 justify-center"><LoadingIcon /></div>}
                 {!isError && !isFetching && projects?.length === 0 && <div className="text-center mt-10 text-sm text-muted-foreground">No Projects Found</div>}
