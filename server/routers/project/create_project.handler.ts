@@ -3,8 +3,7 @@ import { TRPCError } from "@trpc/server";
 
 import { createDeployment } from "@/lib/prisma/deployment/service";
 import { createProject, getProjectByName } from "@/lib/prisma/project/service";
-
-import { sqsClient, sqs_send_message_command } from "@/lib/aws/aws_client";
+import { ec2Client, ec2_run_instance_command } from "@/lib/aws/aws_client";
 
 
 type create_project_handler_params = {
@@ -47,11 +46,14 @@ export default async function create_project_handler({ user_id, project_name, re
             commit_url: commit_data?.html_url
         })
 
-        await sqsClient.send(sqs_send_message_command({ deployment_id: deployment?.id, domain: project?.domain, repo_url: project?.repo_url }))
+        const deployment_metadata = { deployment_id: deployment?.id, domain: project?.domain, repo_url: project?.repo_url }
+
+        const instance = await ec2Client.send(ec2_run_instance_command(JSON.stringify(deployment_metadata)))
 
         return {
             project,
-            deployment
+            deployment,
+            instance: instance.$metadata?.httpStatusCode
         }
     } catch (error: any) {
         throw new TRPCError({ code: error?.code, message: error?.message as string })
