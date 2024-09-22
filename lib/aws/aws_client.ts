@@ -27,8 +27,6 @@ export const ec2_run_instance_command = (deployment_metadata: string) => {
         export KAFKA_PASSWORD=${process.env.KAFKA_PASSWORD}
         export KAFKAJS_NO_PARTITIONER_WARNING=${process.env.KAFKAJS_NO_PARTITIONER_WARNING}
 
-        export CLICKHOUSE_DB_URL=${process.env.CLICKHOUSE_DB_URL}
-
         export DEPLOYMENT_METADATA='${deployment_metadata}'
 
         cd /home/ubuntu/skywave/build-service
