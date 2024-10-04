@@ -16,9 +16,9 @@ type Log = {
     log: string
 }
 
-export default function BuildLogsContainer({ deployment_id }: { deployment_id: string }) {
+export default function BuildLogsContainer({ deployment_id, deploying_status }: { deployment_id: string, deploying_status: boolean }) {
 
-    const { data: logs_data, isError, isFetching, error } = trpc?.build_logs?.get_logs.useQuery({ deployment_id }, { refetchOnWindowFocus: false })
+    const { data: logs_data, isError, isFetching, isRefetching, error } = trpc?.build_logs?.get_logs.useQuery({ deployment_id }, { refetchOnWindowFocus: false, refetchInterval: (deploying_status ? 6000 : false) })
 
     useEffect(() => {
 
@@ -38,15 +38,15 @@ export default function BuildLogsContainer({ deployment_id }: { deployment_id: s
             </div>
             <ScrollArea className="relative flex-1 mt-1 bg-[#333] rounded-sm mx-3 md:mx-0 px-3">
                 {isError && <div className="text-center mt-5 text-sm text-muted-foreground">Something went wrong</div>}
-                {!isError && isFetching && <div className="flex mt-5 justify-center"><LoadingIcon /></div>}
+                {!isError && !isRefetching && isFetching && <div className="flex mt-5 justify-center"><LoadingIcon /></div>}
                 {!isError && !isFetching && logs_data?.length === 0 && <div className="text-center mt-5 text-sm text-muted-foreground">No Logs Found</div>}
-                {!isError && !isFetching && logs_data &&
+                {!isError && (!isFetching || isRefetching) && logs_data &&
                     logs_data?.map((log_event: Log, index: number) => {
                         return (
                             <>
                                 <div key={'logs' + index} className={`text-xs grid grid-cols-6 gap-4 md:gap-2 ${index === 0 ? 'mt-4 ' : ''}${index === logs_data?.length - 1 ? 'mb-4' : ''}`}>
                                     <div className="col-span-1 text-center min-w-[48px]">
-                                            {formatTime(log_event?.created_at)}
+                                        {formatTime(log_event?.created_at)}
                                     </div>
                                     <div className="col-span-5">
                                         {log_event?.log}
@@ -56,7 +56,6 @@ export default function BuildLogsContainer({ deployment_id }: { deployment_id: s
                         )
                     })
                 }
-
             </ScrollArea>
         </>
     )

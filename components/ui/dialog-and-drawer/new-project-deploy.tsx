@@ -101,7 +101,7 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
 
     const create_project_mutation = trpc?.project?.create_project?.useMutation();
 
-    const { error: cp_error, isSuccess: cp_isSuccess, isPending: cp_isPending } = create_project_mutation;
+    const { data, error: cp_error, isSuccess: cp_isSuccess, isPending: cp_isPending } = create_project_mutation;
 
     useEffect(() => {
 
@@ -113,9 +113,9 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
         }
 
         if (cp_isSuccess) {
-            router.push(`/dashboard/${project_name}`)
+            router.push(`/dashboard/${data?.project?.name}/${data?.deployment?.id}`)
         }
-        
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cp_error, cp_isSuccess])
 

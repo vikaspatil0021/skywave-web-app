@@ -21,7 +21,7 @@ export default function Page({ params }: { params: { project_slug: string } }) {
 
     const get_project_query = trpc?.project?.get_project?.useQuery({ project_name: params?.project_slug }, { refetchOnWindowFocus: false })
 
-    const { data: project_data, isFetching, isError, error } = get_project_query;
+    const { data: project_data, isFetching, isRefetching, isError, error } = get_project_query;
 
     useEffect(() => {
 
@@ -44,8 +44,8 @@ export default function Page({ params }: { params: { project_slug: string } }) {
                             {params?.project_slug}
                         </div>
                         <div className="flex gap-2">
-                            {isFetching && <Skeleton className="h-8 w-32 bg-[#333]" />}
-                            {!isFetching && <>
+                            {!isRefetching && isFetching && <Skeleton className="h-8 w-32 bg-[#333]" />}
+                            {(!isFetching || isRefetching) && <>
                                 <Link target="_blank" href={project_data?.repo_url as string}>
                                     <Button variant='outline' size="sm" className="flex gap-1">
                                         <GitHubLogoIcon />

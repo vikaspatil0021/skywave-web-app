@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { trpc } from "@/server/trpcClient";
 
@@ -18,8 +18,10 @@ import BuildLogsContainer from "@/components/ui/containers/build_logs_container"
 export default function Page({ params }: { params: { project_slug: string, deployment_slug: string } }) {
   const { deployment_slug, project_slug } = params;
 
-  const get_deployment_query = trpc?.deployment?.get_deployment?.useQuery({ id: deployment_slug }, { refetchOnWindowFocus: false })
-  const { data: deployment_data, isFetching, isError, error } = get_deployment_query;
+  const [deploying_status, set_deploying_status] = useState<boolean>(false)
+
+  const get_deployment_query = trpc?.deployment?.get_deployment?.useQuery({ id: deployment_slug }, { refetchOnWindowFocus: false, refetchInterval: (deploying_status ? 6000 : false) })
+  const { data: deployment_data, isFetching, isRefetching, isError, error } = get_deployment_query;
 
   useEffect(() => {
 
@@ -32,6 +34,15 @@ export default function Page({ params }: { params: { project_slug: string, deplo
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError])
 
+  useEffect(() => {
+
+    if (deployment_data?.status === "Ready" || deployment_data?.status == "Error") {
+      set_deploying_status(false)
+    } else {
+      set_deploying_status(true)
+    }
+  }, [deployment_data])
+
   return (
     <>
       <div className="max-w-2xl w-full mx-auto pb-3 flex-1 flex flex-col overflow-hidden">
@@ -42,8 +53,8 @@ export default function Page({ params }: { params: { project_slug: string, deplo
             </Link>
           </div>
           <div className="flex gap-2">
-            {isFetching && <Skeleton className="h-8 w-32 bg-[#333]" />}
-            {!isFetching && <>
+            {!isRefetching && isFetching && <Skeleton className="h-8 w-32 bg-[#333]" />}
+            {(!isFetching || isRefetching) && deployment_data && <>
               <Link target="_blank" href={deployment_data?.project?.repo_url as string}>
                 <Button variant='outline' size="sm" className="flex gap-1">
                   <GitHubLogoIcon />
@@ -68,8 +79,8 @@ export default function Page({ params }: { params: { project_slug: string, deplo
               Status
             </span>
             <div className="grid ">
-              {isFetching && <Skeleton className="h-8 w-24 bg-[#333]" />}
-              {!isFetching &&
+              {!isRefetching && isFetching && <Skeleton className="h-8 w-24 bg-[#333]" />}
+              {(!isFetching || isRefetching) && deployment_data &&
                 <>
                   <div>{deployment_data?.status}</div>
                   <div className="">{calculate_time_since(deployment_data?.created_at as string)} ago</div>
@@ -81,8 +92,8 @@ export default function Page({ params }: { params: { project_slug: string, deplo
             <div className="text-muted-foreground">
               Source
             </div>
-            {isFetching && <Skeleton className="h-8 w-40 bg-[#333]" />}
-            {!isFetching && <>
+            {!isRefetching && isFetching && <Skeleton className="h-8 w-40 bg-[#333]" />}
+            {(!isFetching || isRefetching) && deployment_data && <>
               <Link target="_blank" href={deployment_data?.commit_url as string} className="group/commit grid">
                 <div className="flex gap-1">
                   <span>
@@ -102,6 +113,7 @@ export default function Page({ params }: { params: { project_slug: string, deplo
         </div >
         <BuildLogsContainer
           deployment_id={deployment_slug}
+          deploying_status={deploying_status}
         />
       </div >
 

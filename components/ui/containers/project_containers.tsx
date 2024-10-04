@@ -29,7 +29,7 @@ type Project = {
 export default function ProjectsContainer({ search_input_val }: { search_input_val: string }) {
     const [filtered_projects, set_filtered_projects] = useState<Project[]>([]);
 
-    const { data: projects, isFetching, isError, error } = trpc?.project?.get_projects?.useQuery(undefined, { refetchOnWindowFocus: false });
+    const { data: projects, isFetching, isRefetching, isError, error } = trpc?.project?.get_projects?.useQuery(undefined, { refetchOnWindowFocus: false });
 
     useEffect(() => {
 
@@ -59,10 +59,10 @@ export default function ProjectsContainer({ search_input_val }: { search_input_v
         <>
             <div className="grid md:grid-cols-2 gap-3 p-1 pb-4">
                 {isError && <div className="text-center mt-10 text-sm text-muted-foreground md:col-span-2">Something went wrong</div>}
-                {!isError && isFetching && <div className="flex mt-10 justify-center md:col-span-2"><LoadingIcon /></div>}
+                {!isError && !isRefetching && isFetching && <div className="flex mt-10 justify-center md:col-span-2"><LoadingIcon /></div>}
                 {!isError && !isFetching && projects?.length === 0 && <div className="text-center mt-10 text-sm text-muted-foreground md:col-span-2">No Projects Found</div>}
 
-                {!isError && !isFetching && search_input_val === '' &&
+                {!isError && (!isFetching || isRefetching) && search_input_val === '' &&
                     projects?.map((project: Project, index: number) => {
                         return (
                             <ProjectCard
@@ -72,7 +72,7 @@ export default function ProjectsContainer({ search_input_val }: { search_input_v
                             />
                         )
                     })}
-                {!isError && !isFetching && search_input_val !== '' &&
+                {!isError && (!isFetching || isRefetching) && search_input_val !== '' &&
                     filtered_projects?.map((project: Project, index: number) => {
                         return (
                             <ProjectCard
