@@ -47,7 +47,7 @@ export default async function create_project_handler({ user_id, project_name, re
         if (output_dir) {
             project_config.output_dir = output_dir;
         }
-        
+
         const project = await createProject(project_config)
 
         const q = repo_url.replace("https://github.com/", '').replace('.git', '')
@@ -67,7 +67,25 @@ export default async function create_project_handler({ user_id, project_name, re
             commit_url: commit_data?.html_url
         })
 
-        const deployment_metadata = { deployment_id: deployment?.id, domain: project?.domain, repo_url: project?.repo_url }
+        const deployment_metadata = {
+            deployment_id: deployment?.id,
+            domain: project?.domain,
+            repo_url: project?.repo_url
+        } as {
+            deployment_id: string,
+            domain: string,
+            repo_url: string,
+            build_command?: string,
+            output_dir?: string
+        }
+
+        if (build_command) {
+            deployment_metadata.build_command = build_command;
+        }
+
+        if (output_dir) {
+            deployment_metadata.output_dir = output_dir;
+        }
 
         const instance = await ec2Client.send(ec2_run_instance_command(JSON.stringify(deployment_metadata)))
 
