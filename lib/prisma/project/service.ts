@@ -38,7 +38,9 @@ type CreateProjectInputData = {
     domain: string,
     name: string,
     repo_url: string,
-    user_id: string
+    user_id: string,
+    build_command?: string,
+    output_dir?: string
 }
 
 

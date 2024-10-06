@@ -98,6 +98,8 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
     const [output_directory_disabled, set_output_directory] = useState<boolean>(true);
 
     const [project_name, set_project_name] = useState<string>(repo?.name || '');
+    const [build_command, set_build_command] = useState<string>('');
+    const [output_dir, set_output_dir] = useState<string>('');
 
     const create_project_mutation = trpc?.project?.create_project?.useMutation();
 
@@ -127,7 +129,25 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
             return;
         }
 
-        create_project_mutation.mutate({ project_name, repo_url: repo?.clone_url })
+        const config = {
+            project_name,
+            repo_url: repo?.clone_url
+        } as {
+            project_name: string;
+            repo_url: string;
+            build_command?: string;
+            output_dir?: string;
+        }
+
+        if (build_command && build_command !== '') {
+            config.build_command = build_command;
+        }
+
+        if (output_dir && output_dir !== '') {
+            config.output_dir = output_dir;
+        }
+
+        create_project_mutation.mutate(config)
     }
 
     return (
@@ -148,14 +168,14 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
                 <div className="grid gap-1">
                     <Label htmlFor="build_command" className="text-xs text-white/50">Build Command</Label>
                     <div className="flex items-center gap-2">
-                        <Input id="build_command" placeholder="npm run build" className="bg-[#111]" disabled={build_command_disabled} />
+                        <Input id="build_command" placeholder="npm run build" className="bg-[#111]" disabled={build_command_disabled} value={build_command} onChange={(e: any) => set_build_command(e.target?.value)} />
                         <Switch id="build_command_override" title="Override" checked={!build_command_disabled} onCheckedChange={(val: boolean) => set_build_command_disabled(!val)} />
                     </div>
                 </div>
                 <div className="grid gap-1">
                     <Label htmlFor="output_directory" className="text-xs text-white/50">Output Directory</Label>
                     <div className="flex items-center gap-2">
-                        <Input id="output_directory" placeholder="build" className="bg-[#111]" disabled={output_directory_disabled} />
+                        <Input id="output_directory" placeholder="build" className="bg-[#111]" disabled={output_directory_disabled} value={output_dir} onChange={(e: any) => set_output_dir(e.target?.value)} />
                         <Switch id="output_directory_override" title="Override" checked={!output_directory_disabled} onCheckedChange={(val: boolean) => set_output_directory(!val)} />
                     </div>
                 </div>

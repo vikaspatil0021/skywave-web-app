@@ -10,10 +10,21 @@ type create_project_handler_params = {
     user_id: string,
     project_name: string,
     repo_url: string,
-
+    build_command?: string,
+    output_dir?: string
 }
 
-export default async function create_project_handler({ user_id, project_name, repo_url }: create_project_handler_params) {
+type CreateProjectInputData = {
+    domain: string,
+    name: string,
+    repo_url: string,
+    user_id: string,
+    build_command?: string,
+    output_dir?: string
+}
+
+
+export default async function create_project_handler({ user_id, project_name, repo_url, build_command, output_dir }: create_project_handler_params) {
 
     try {
         const existing_project = await getProjectByName(project_name);
@@ -22,12 +33,22 @@ export default async function create_project_handler({ user_id, project_name, re
             throw new TRPCError({ code: 'BAD_REQUEST', message: 'Project name already exists.' })
         }
 
-        const project = await createProject({
+        const project_config = {
             name: project_name,
             repo_url,
             user_id,
             domain: project_name
-        })
+        } as CreateProjectInputData
+
+        if (build_command) {
+            project_config.build_command = build_command;
+        }
+
+        if (output_dir) {
+            project_config.output_dir = output_dir;
+        }
+        
+        const project = await createProject(project_config)
 
         const q = repo_url.replace("https://github.com/", '').replace('.git', '')
         const url = `https://api.github.com/repos/${q}/commits?sort=updated&order=desc&per_page=1`;

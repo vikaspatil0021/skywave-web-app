@@ -12,6 +12,8 @@ export const project_router = router({
         .input(z.object({
             project_name: z.string(),
             repo_url: z.string(),
+            build_command: z.string().optional(),
+            output_dir: z.string().optional()
         }))
         .mutation(({ ctx: { session }, input }) => create_project_handler({ user_id: session?.user?.id, ...input })),
 

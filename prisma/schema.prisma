@@ -38,14 +38,16 @@ model User {
 }
 
 model Project {
-  id         String       @id @default("")
-  name       String       @unique
-  domain     String
-  repo_url   String
-  created_at DateTime     @default(now())
-  user_id    String
-  Deployment Deployment[]
-  user       User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  id            String       @id @default("")
+  name          String       @unique
+  domain        String
+  repo_url      String
+  build_command String       @default("npm run build")
+  output_dir    String       @default("build")
+  created_at    DateTime     @default(now())
+  user_id       String
+  Deployment    Deployment[]
+  user          User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Deployment {
