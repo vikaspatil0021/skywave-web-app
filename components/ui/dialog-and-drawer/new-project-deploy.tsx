@@ -55,7 +55,7 @@ export function NewProjectDeployDrawerDialog({ repo, git_username }: NewProjectD
                 <DialogTrigger asChild>
                     <Button variant="default" size='sm' className="h-7">Import</Button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px] bg-[#333]">
+                <DialogContent className="sm:max-w-[425px] dark:bg-[#333]">
                     <DialogHeader>
                         <DialogTitle>Configure Project</DialogTitle>
                     </DialogHeader>
@@ -72,7 +72,7 @@ export function NewProjectDeployDrawerDialog({ repo, git_username }: NewProjectD
             <DrawerTrigger asChild>
                 <Button variant="default" size='sm' className="h-7">Import</Button>
             </DrawerTrigger>
-            <DrawerContent className="bg-[#333]">
+            <DrawerContent className="dark:bg-[#333]">
                 <DrawerHeader className="text-left">
                     <DrawerTitle>Configure Project</DrawerTitle>
                 </DrawerHeader>
@@ -152,7 +152,7 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
 
     return (
         <>
-            <div className='flex justify-between items-center py-3 px-3 border border-white/20 text-xs bg-[#111] rounded-md'>
+            <div className='flex justify-between items-center py-3 px-3 border border-white/20 text-xs dark:bg-[#111] bg-[#ccc] rounded-md'>
                 <div className="flex items-center gap-2 cursor-default">
                     <GitHubLogoIcon />
                     <span className="leading-none max-w-[300px] truncate" title={`${git_username}/${repo?.name}`}>{`${git_username}/${repo?.name}`}</span>
@@ -160,22 +160,22 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
             </div >
             <form className="grid items-start gap-4">
                 <div className="grid gap-1">
-                    <Label htmlFor="project_name" className="text-xs font-medium text-white/50 tracking-wide">
-                        Project Name <span className="text-white/60">{"( 'a-z', '0-9', '-', '_' only)"}</span>
+                    <Label htmlFor="project_name" className="text-xs font-medium dark:text-white/50 tracking-wide">
+                        Project Name <span className="dark:text-white/60">{"( 'a-z', '0-9', '-', '_' only)"}</span>
                     </Label>
-                    <Input type="text" id="project_name" className="bg-[#111]" value={project_name} onChange={(e: any) => set_project_name(e.target?.value)} />
+                    <Input type="text" id="project_name" className="dark:bg-[#111] bg-[#ccc]" value={project_name} onChange={(e: any) => set_project_name(e.target?.value)} />
                 </div>
                 <div className="grid gap-1">
-                    <Label htmlFor="build_command" className="text-xs text-white/50">Build Command</Label>
+                    <Label htmlFor="build_command" className="text-xs dark:text-white/50">Build Command</Label>
                     <div className="flex items-center gap-2">
-                        <Input id="build_command" placeholder="npm run build" className="bg-[#111]" disabled={build_command_disabled} value={build_command} onChange={(e: any) => set_build_command(e.target?.value)} />
+                        <Input id="build_command" placeholder="npm run build" className="dark:bg-[#111] bg-[#ccc]" disabled={build_command_disabled} value={build_command} onChange={(e: any) => set_build_command(e.target?.value)} />
                         <Switch id="build_command_override" title="Override" checked={!build_command_disabled} onCheckedChange={(val: boolean) => set_build_command_disabled(!val)} />
                     </div>
                 </div>
                 <div className="grid gap-1">
-                    <Label htmlFor="output_directory" className="text-xs text-white/50">Output Directory</Label>
+                    <Label htmlFor="output_directory" className="text-xs dark:text-white/50">Output Directory</Label>
                     <div className="flex items-center gap-2">
-                        <Input id="output_directory" placeholder="build" className="bg-[#111]" disabled={output_directory_disabled} value={output_dir} onChange={(e: any) => set_output_dir(e.target?.value)} />
+                        <Input id="output_directory" placeholder="build" className="dark:bg-[#111] bg-[#ccc]" disabled={output_directory_disabled} value={output_dir} onChange={(e: any) => set_output_dir(e.target?.value)} />
                         <Switch id="output_directory_override" title="Override" checked={!output_directory_disabled} onCheckedChange={(val: boolean) => set_output_directory(!val)} />
                     </div>
                 </div>

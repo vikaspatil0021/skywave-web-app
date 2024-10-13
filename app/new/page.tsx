@@ -59,7 +59,7 @@ export default function Page() {
                     <div className=" inline-flex items-center gap-2 rounded-md">
                         <GitHubLogoIcon />
                         <span>
-                            {user ? user?.git_username : <Skeleton className="h-5 w-28 bg-zinc-600" />}
+                            {user ? user?.git_username : <Skeleton className="h-5 w-28 bg-[#ccc] dark:bg-zinc-600" />}
                         </span>
                     </div>
 
@@ -85,7 +85,7 @@ export default function Page() {
                                             <div className="flex gap-2">
                                                 <GitHubLogoIcon />
 
-                                                <span>{repo?.name}</span>
+                                                <span className="truncate max-w-[150px] md:max-w-[260px]">{repo?.name}</span>
                                                 <span className="text-zinc-400">{calculate_time_since(repo?.updated_at)}</span>
                                             </div>
                                             <NewProjectDeployDrawerDialog
