@@ -55,7 +55,7 @@ export default function Page() {
                 <p className="text-muted-foreground mt-2 mb-5">
                     Import an existing Git Repository.
                 </p>
-                <div className="flex flex-col w-full h-[380px] md:h-[395px] gap-3 p-4 md:p-6 bg-[#333] text-sm text-white/90 rounded-md border border-white/10">
+                <div className="flex flex-col w-full h-[380px] md:h-[395px] gap-3 p-4 md:p-6 dark:bg-[#333] bg-[#eee] text-sm dark:text-white/90 rounded-md border dark:border-white/10 border-black/10">
                     <div className=" inline-flex items-center gap-2 rounded-md">
                         <GitHubLogoIcon />
                         <span>
@@ -65,13 +65,13 @@ export default function Page() {
 
                     <div className="relative flex items-center">
                         <MagnifyingGlassIcon className="absolute left-2" />
-                        <Input type="text" placeholder="Search repo..." className="bg-[#111] text-xs text-white/80 ps-7"
+                        <Input type="text" placeholder="Search repo..." className="dark:bg-[#111] text-xs dark:text-white/80 ps-7"
                             value={inputVal}
                             onChange={(e) => setInputVal(e?.target?.value as string)} />
                     </div>
 
 
-                    <div className={`flex-1 ${isFetching || isError || data.length === 0 ? "flex justify-center items-center" : ''} border border-white/20 text-xs bg-[#111] rounded-md relative`}>
+                    <div className={`flex-1 ${isFetching || isError || data.length === 0 ? "flex justify-center items-center" : ''} border dark:border-white/20 border-black/20 text-xs dark:bg-[#111] bg-[#fff] rounded-md relative`}>
 
                         {isError && <span>Something went wrong</span>}
                         {!isError && isFetching && <LoadingIcon />}
@@ -81,7 +81,7 @@ export default function Page() {
                             data.map((repo: Repo, index: number) => {
                                 return (
                                     <>
-                                        <div key={'repo' + index} className={`flex justify-between items-center py-3 px-3 ${index !== 4 ? "border-b border-white/20" : ''}`}>
+                                        <div key={'repo' + index} className={`flex justify-between items-center py-3 px-3 ${index !== 4 ? "border-b dark:border-white/20 border-black/20" : ''}`}>
                                             <div className="flex gap-2">
                                                 <GitHubLogoIcon />
 
