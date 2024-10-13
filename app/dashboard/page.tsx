@@ -21,7 +21,7 @@ export default function Page() {
                     <div className="flex gap-2 items-center p-1 pt-6">
                         <div className="relative flex-1 flex items-center">
                             <MagnifyingGlassIcon className="absolute left-2" />
-                            <Input type="text" placeholder="Search project..." className="bg-[#111] text-xs text-white/80 ps-7"
+                            <Input type="text" placeholder="Search project..." className="dark:bg-[#111] text-xs dark:text-white/80 ps-7"
                                 value={search_input_val}
                                 onChange={(e) => set_input_val(e?.target?.value as string)} />
                         </div>

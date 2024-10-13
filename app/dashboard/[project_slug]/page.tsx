@@ -40,11 +40,11 @@ export default function Page({ params }: { params: { project_slug: string } }) {
 
                 <div className="max-w-2xl w-full mx-auto">
                     <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between w-full py-5 md:h-[90px] px-3 md:p-0 border-b-2">
-                        <div className="text-3xl font-bold">
+                        <div className="text-3xl font-bold line-clamp-2 md:line-clamp-1" title={params?.project_slug}>
                             {params?.project_slug}
                         </div>
                         <div className="flex gap-2">
-                            {!isRefetching && isFetching && <Skeleton className="h-8 w-32 bg-[#333]" />}
+                            {!isRefetching && isFetching && <Skeleton className="h-8 w-32 dark:bg-[#333] bg-[#ddd]" />}
                             {(!isFetching || isRefetching) && <>
                                 <Link target="_blank" href={project_data?.repo_url as string}>
                                     <Button variant='outline' size="sm" className="flex gap-1">

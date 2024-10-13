@@ -53,7 +53,7 @@ export default function Page({ params }: { params: { project_slug: string, deplo
             </Link>
           </div>
           <div className="flex gap-2">
-            {!isRefetching && isFetching && <Skeleton className="h-8 w-32 bg-[#333]" />}
+            {!isRefetching && isFetching && <Skeleton className="h-8 w-32 dark:bg-[#333] bg-[#ddd]" />}
             {(!isFetching || isRefetching) && deployment_data && <>
               <Link target="_blank" href={deployment_data?.project?.repo_url as string}>
                 <Button variant='outline' size="sm" className="flex gap-1">
@@ -79,7 +79,7 @@ export default function Page({ params }: { params: { project_slug: string, deplo
               Status
             </span>
             <div className="grid ">
-              {!isRefetching && isFetching && <Skeleton className="h-8 w-24 bg-[#333]" />}
+              {!isRefetching && isFetching && <Skeleton className="h-8 w-24 dark:bg-[#333] bg-[#ddd]" />}
               {(!isFetching || isRefetching) && deployment_data &&
                 <>
                   <div>{deployment_data?.status}</div>
@@ -92,7 +92,7 @@ export default function Page({ params }: { params: { project_slug: string, deplo
             <div className="text-muted-foreground">
               Source
             </div>
-            {!isRefetching && isFetching && <Skeleton className="h-8 w-40 bg-[#333]" />}
+            {!isRefetching && isFetching && <Skeleton className="h-8 w-40 dark:bg-[#333] bg-[#ddd]" />}
             {(!isFetching || isRefetching) && deployment_data && <>
               <Link target="_blank" href={deployment_data?.commit_url as string} className="group/commit grid">
                 <div className="flex gap-1">

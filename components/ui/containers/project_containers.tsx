@@ -95,16 +95,16 @@ function ProjectCard({ project, index }: { project: Project, index: number }) {
                 <Link target="_blank" href={project?.repo_url}>
                     <div className="group/link flex gap-0.5 mt-2 items-center text-xs text-muted-foreground hover:underline cursor-pointer">
                         <GitHubLogoIcon className="h-3 w-3 me-0.5" />
-                        <span className="truncate max-w-[200px] text-center" title={project?.repo_url.replace("https://github.com/", '').replace('.git', '')}>
+                        <span className="truncate max-w-[290px] text-center" title={project?.repo_url.replace("https://github.com/", '').replace('.git', '')}>
                             {project?.repo_url.replace("https://github.com/", '').replace('.git', '')}
                         </span>
                         <ExternalLinkIcon className="h-3 w-3 hidden group-hover/link:block" />
                     </div>
                 </Link>
-                < div className="flex items-center justify-between gap-3 bg-[#333] border border-white/20 rounded-md p-3 w-full">
+                < div className="flex items-center justify-between gap-3 dark:bg-[#333] bg-[#eee] border border-black/10 dark:border-white/20 rounded-md p-3 w-full">
                     <div className="grid gap-1">
                         <Link href={`/dashboard/${project?.name}`}>
-                            <div className="text-sm hover:underline">{project?.name}</div>
+                            <div className="text-sm hover:underline truncate max-w-[235px]">{project?.name}</div>
                         </Link>
 
                         <div className="flex items-center gap-2 cursor-default ">
