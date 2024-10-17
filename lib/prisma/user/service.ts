@@ -15,6 +15,8 @@ type createUserInputData = {
     git_user_id: string,
     git_username: string,
     repos_url: string,
+    encrypted_access_token: string,
+    token_iv: string
 }
 
 export const createUser = async (data: createUserInputData) => {

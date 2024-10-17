@@ -26,15 +26,17 @@ enum DeploySource {
 }
 
 model User {
-  id           String    @id @default("")
-  name         String
-  email        String    @unique
-  picture      String
-  git_user_id  String
-  git_username String
-  repos_url    String
-  created_at   DateTime  @default(now())
-  Project      Project[]
+  id                     String    @id @default("")
+  name                   String
+  email                  String    @unique
+  picture                String
+  git_user_id            String
+  git_username           String
+  repos_url              String
+  encrypted_access_token String
+  token_iv               String
+  created_at             DateTime  @default(now())
+  Project                Project[]
 }
 
 model Project {
