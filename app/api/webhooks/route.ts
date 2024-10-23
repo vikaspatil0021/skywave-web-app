@@ -17,13 +17,17 @@ type Project = {
 
 export const POST = async (req: Request) => {
     try {
-
         const signature = req.headers.get('X-Hub-Signature-256');
+        const event = req.headers.get('x-github-event');
+
+        if (event !== 'push') {
+            return NextResponse.json({ message: `Event: ${event} is not valid` }, { status: 403 });
+        }
 
         const rawBody = await req.text();
 
         // passord should be hard coded change it 
-        const hash = "sha256=" + crypto.createHmac('sha256', "abcd").update(rawBody).digest('hex');
+        const hash = "sha256=" + crypto.createHmac('sha256', process.env.TOKEN_ENCRYPT_KEY as string).update(rawBody).digest('hex');
 
         if (hash !== signature) {
             return NextResponse.json({ error: "signature is not valid" }, { status: 500 });

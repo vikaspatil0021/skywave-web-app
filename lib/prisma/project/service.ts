@@ -46,7 +46,10 @@ type CreateProjectInputData = {
 
 export const createProject = async (data: CreateProjectInputData) => {
     return await prisma?.project.create({
-        data
+        data,
+        include: {
+            user: true
+        }
     });
 }
 

@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 
 import { createProject, getProjectByName } from "@/lib/prisma/project/service";
 
+import create_webhook_action from "@/lib/actions/create_webhook_action";
 import create_deployment_action from "@/lib/actions/create_deployment_action";
 
 
@@ -48,6 +49,15 @@ export default async function create_project_handler({ user_id, project_name, re
         }
 
         const project = await createProject(project_config)
+
+        await create_webhook_action({
+            project_name,
+            repo_url,
+            token: {
+                encrypted_access_token: project?.user?.encrypted_access_token,
+                token_iv: project?.user?.token_iv
+            }
+        })
 
         const result = await create_deployment_action({ project, repo_url, build_command, output_dir })
 
