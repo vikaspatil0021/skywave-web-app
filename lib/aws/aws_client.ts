@@ -21,6 +21,7 @@ export const ec2_run_instance_command = (deployment_metadata: string) => {
 
         export AWS_ID=${process.env.AWS_ID}
         export AWS_KEY=${process.env.AWS_KEY}
+        export AWS_DISTRIBUTION_ID=${process.env.AWS_DISTRIBUTION_ID}
 
         export KAFKA_BROKER_URL=${process.env.KAFKA_BROKER_URL}
         export KAFKA_USERNAME=${process.env.KAFKA_USERNAME}
