@@ -34,6 +34,14 @@ export const getProjectsByUserId = async (user_id: string) => {
     });
 }
 
+export const getProjectsByRepoId = async (repo_id: number) => {
+    return await prisma?.project?.findMany({
+        where: {
+            repo_id
+        }
+    })
+}
+
 type CreateProjectInputData = {
     domain: string,
     name: string,

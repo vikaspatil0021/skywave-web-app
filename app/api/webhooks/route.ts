@@ -1,8 +1,9 @@
-import create_deployment_action from "@/lib/actions/create_deployment_action";
-import { getProjectByName } from "@/lib/prisma/project/service";
 import crypto from "crypto";
-
 import { NextResponse } from "next/server";
+
+import { getProjectsByRepoId } from "@/lib/prisma/project/service";
+import create_deployment_action from "@/lib/actions/create_deployment_action";
+
 
 type Project = {
     id: string;
@@ -33,18 +34,23 @@ export const POST = async (req: Request) => {
             return NextResponse.json({ error: "signature is not valid" }, { status: 500 });
         }
 
-        const data = JSON.parse(rawBody) as { repository: { name: string } };
+        const data = JSON.parse(rawBody) as { repository: { id: number } };
 
-        const repo_name = data.repository.name;
+        const repo_id = data.repository.id;
 
-        const project = await getProjectByName(repo_name);
+        const projects = await getProjectsByRepoId(repo_id);
 
-        const result = await create_deployment_action({
-            project: project as Project,
-            repo_url: project?.repo_url as string,
-            build_command: project?.build_command,
-            output_dir: project?.output_dir
+        const create_deployment_promises = projects?.map(async (project) => {
+
+            return await create_deployment_action({
+                project: project as Project,
+                repo_url: project?.repo_url as string,
+                build_command: project?.build_command,
+                output_dir: project?.output_dir
+            })
         })
+
+        await Promise.all(create_deployment_promises)
 
         return NextResponse.json({ message: "valid signature" }, { status: 200 });
 
