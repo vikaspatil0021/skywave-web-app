@@ -11,6 +11,7 @@ export const project_router = router({
     create_project: authedProcedure
         .input(z.object({
             project_name: z.string(),
+            repo_id: z.number(),
             repo_url: z.string(),
             build_command: z.string().optional(),
             output_dir: z.string().optional()

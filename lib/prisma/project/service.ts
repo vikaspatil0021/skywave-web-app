@@ -37,6 +37,7 @@ export const getProjectsByUserId = async (user_id: string) => {
 type CreateProjectInputData = {
     domain: string,
     name: string,
+    repo_id: number,
     repo_url: string,
     user_id: string,
     build_command?: string,

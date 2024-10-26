@@ -43,6 +43,7 @@ model Project {
   id            String       @id @default("")
   name          String       @unique
   domain        String
+  repo_id       Int
   repo_url      String
   build_command String       @default("npm run build")
   output_dir    String       @default("build")

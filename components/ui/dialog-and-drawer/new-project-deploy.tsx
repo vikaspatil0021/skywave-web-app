@@ -35,7 +35,7 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons"
 
 type NewProjectDeployDrawerDialogProps = {
     repo: {
-        id: string,
+        id: number,
         name: string,
         updated_at: string,
         visibility: string,
@@ -131,9 +131,11 @@ function ProfileForm({ repo, git_username }: NewProjectDeployDrawerDialogProps) 
 
         const config = {
             project_name,
+            repo_id: repo?.id,
             repo_url: repo?.clone_url
         } as {
             project_name: string;
+            repo_id: number;
             repo_url: string;
             build_command?: string;
             output_dir?: string;

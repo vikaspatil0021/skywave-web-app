@@ -7,6 +7,7 @@ import create_deployment_action from "@/lib/actions/create_deployment_action";
 
 
 type create_project_handler_params = {
+    repo_id: number,
     user_id: string,
     project_name: string,
     repo_url: string,
@@ -17,6 +18,7 @@ type create_project_handler_params = {
 type CreateProjectInputData = {
     domain: string,
     name: string,
+    repo_id: number,
     repo_url: string,
     user_id: string,
     build_command?: string,
@@ -24,7 +26,7 @@ type CreateProjectInputData = {
 }
 
 
-export default async function create_project_handler({ user_id, project_name, repo_url, build_command, output_dir }: create_project_handler_params) {
+export default async function create_project_handler({ repo_id, user_id, project_name, repo_url, build_command, output_dir }: create_project_handler_params) {
 
     try {
         const existing_project = await getProjectByName(project_name);
@@ -35,6 +37,7 @@ export default async function create_project_handler({ user_id, project_name, re
 
         const project_config = {
             name: project_name,
+            repo_id,
             repo_url,
             user_id,
             domain: project_name

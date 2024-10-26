@@ -17,7 +17,7 @@ import { toast } from "@/components/ui/use-toast";
 import { NewProjectDeployDrawerDialog } from "@/components/ui/dialog-and-drawer/new-project-deploy";
 
 type Repo = {
-    id: string,
+    id: number,
     name: string,
     updated_at: string,
     visibility: string,
