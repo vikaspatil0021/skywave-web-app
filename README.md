@@ -21,3 +21,4 @@ Skywave is the open-source cloud platform for deployment of static websites.
 
 - **Supports Popular Frameworks**: Compatible with top frameworks like React, Angular, Vue, and more, letting you build with your preferred tools.
 
+[Learn more about skywave](https://github.com/vikaspatil0021/skywave/blob/main/README.md)
