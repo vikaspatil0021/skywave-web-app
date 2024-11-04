@@ -12,6 +12,7 @@ import { toast } from "@/components/ui/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 
+import NotFound from "@/app/not-found";
 import DeploymentContainer from "@/components/ui/containers/deployment_containers";
 
 
@@ -34,6 +35,10 @@ export default function Page({ params }: { params: { project_slug: string } }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isError])
 
+    if (project_data === null) {
+        return <NotFound />
+    }
+
     return (
         <>
             <ScrollArea className="relative h-full w-full" >
@@ -45,7 +50,7 @@ export default function Page({ params }: { params: { project_slug: string } }) {
                         </div>
                         <div className="flex gap-2">
                             {!isRefetching && isFetching && <Skeleton className="h-8 w-32 dark:bg-[#333] bg-[#ddd]" />}
-                            {(!isFetching || isRefetching) && <>
+                            {(!isFetching || isRefetching) && project_data && <>
                                 <Link target="_blank" href={project_data?.repo_url as string}>
                                     <Button variant='outline' size="sm" className="flex gap-1">
                                         <GitHubLogoIcon />

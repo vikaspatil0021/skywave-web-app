@@ -14,6 +14,7 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { calculate_time_since } from "@/lib/calculate_time_since";
 
 import BuildLogsContainer from "@/components/ui/containers/build_logs_container";
+import NotFound from "@/app/not-found";
 
 export default function Page({ params }: { params: { project_slug: string, deployment_slug: string } }) {
   const { deployment_slug, project_slug } = params;
@@ -42,6 +43,10 @@ export default function Page({ params }: { params: { project_slug: string, deplo
       set_deploying_status(true)
     }
   }, [deployment_data])
+
+  if (deployment_data === null) {
+    return <NotFound />
+  }
 
   return (
     <>
