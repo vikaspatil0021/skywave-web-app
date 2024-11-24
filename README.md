@@ -9,16 +9,29 @@
 
 Skywave is the open-source cloud platform for deployment of static websites.
 
-### Features
+## Local Development  
 
-- **Instant Static Site Hosting**: Launch your static website quickly with simple, streamlined hosting.
+1. Clone the repository:  
+   ```bash
+   git clone https://github.com/your-repo/skywave-web-app.git
+   cd skywave-web-app
+   ```  
+2. Install dependencies:  
+   ```bash
+   npm install
+   ```  
+3. Start the development server:  
+   ```bash
+   npm run dev
+   ```  
+4. Open your browser and navigate to `http://localhost:3000` to view the application locally.  
 
-- **Automatic Deployments from Git**: Deploy changes automatically with each push to your Git repository.
+## Contribution  
 
-- **Scalable with CloudFront and S3**: Benefit from AWS's global network for fast, reliable, and scalable website performance.
+Contributions are welcome! Please fork this repository and submit a pull request with your proposed changes. Be sure to include a detailed description of your modifications.
 
-- **Easy Access to Deployment Logs**: View detailed logs for each deployment to track changes and troubleshoot easily.
+## License  
 
-- **Supports Popular Frameworks**: Compatible with top frameworks like React, Angular, Vue, and more, letting you build with your preferred tools.
+This project is licensed under the [MIT License](LICENSE), allowing you to freely use, modify, and distribute the code with proper attribution.  
 
 [Learn more about skywave](https://github.com/vikaspatil0021/skywave/blob/main/README.md)
