@@ -118,7 +118,7 @@ function ProjectCard({ project, index }: { project: Project, index: number }) {
                             </span>
                         </div>
                     </div>
-                    <Link target="_blank" href={`https://${project?.domain}.skywaveapp.work.gd`}>
+                    <Link target="_blank" href={`https://${project?.domain}.skywaveapp.site`}>
                         <Button variant='default' size="sm">
                             Live
                         </Button>

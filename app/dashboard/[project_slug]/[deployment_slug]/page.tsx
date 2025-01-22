@@ -66,7 +66,7 @@ export default function Page({ params }: { params: { project_slug: string, deplo
                   Repo
                 </Button>
               </Link>
-              <Link target="_blank" href={`https://${deployment_data?.project?.domain}.skywaveapp.work.gd`}>
+              <Link target="_blank" href={`https://${deployment_data?.project?.domain}.skywaveapp.site`}>
                 <Button variant='default' size="sm">
                   Live
                 </Button>
