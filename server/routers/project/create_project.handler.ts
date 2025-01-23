@@ -53,7 +53,7 @@ export default async function create_project_handler({ repo_id, user_id, project
 
         const project = await createProject(project_config)
 
-        await create_webhook_action({
+        const webhook_response = await create_webhook_action({
             project_name,
             repo_url,
             token: {
@@ -64,7 +64,10 @@ export default async function create_project_handler({ repo_id, user_id, project
 
         const result = await create_deployment_action({ project, repo_url, build_command, output_dir })
 
-        return result;
+        return {
+            ...result,
+            webhook_response
+        };
 
     } catch (error: any) {
         throw new TRPCError({ code: error?.code, message: error?.message as string })
