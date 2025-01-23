@@ -13,7 +13,7 @@ export default function NotFound() {
             </p>
             <a
               id="btn"
-              href="https://skywave-web-app.vercel.app/dashboard"
+              href="https://www.skywaveapp.site/dashboard"
               className="flex items-center justify-center py-2 px-4 bg-[#6d28d9] text-[#f2f2f2] rounded-md text-sm font-medium opacity-95 hover:opacity-100"
             >
               Go back to Dashboard
